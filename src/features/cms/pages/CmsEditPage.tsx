@@ -28,7 +28,7 @@ export default async function CmsEditPage({ params }: PageProps) {
 
   const [recordResult, optionsResult] = await Promise.all([
     adminApiGet<Row>(`/api/admin/cms/${key}/${id}`),
-    adminApiGet<Options>(`/api/admin/cms/options/${key}`),
+    adminApiGet<Options>(`/api/admin/cms/${key}/options`),
   ]);
 
   if (!recordResult.ok) {

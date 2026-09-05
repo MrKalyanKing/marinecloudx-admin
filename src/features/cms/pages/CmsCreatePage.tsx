@@ -28,7 +28,7 @@ export default async function CmsCreatePage({ params }: PageProps) {
     redirect(`/cms/${key}`);
   }
 
-  const optionsResult = await adminApiGet<Options>(`/api/admin/cms/options/${key}`);
+  const optionsResult = await adminApiGet<Options>(`/api/admin/cms/${key}/options`);
 
   return (
     <>
