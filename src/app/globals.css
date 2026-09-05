@@ -1,0 +1,275 @@
+@import "tailwindcss";
+
+/*
+ * MarineCloudeX design tokens — "Aurora" palette.
+ *
+ * A deliberately small palette built from four dark surfaces, three teals, three
+ * light surfaces and four text colours. Everything on the site is built from
+ * these — adding a fourth green or a second accent is how a design language
+ * starts to drift, so new colours should be justified rather than assumed.
+ *
+ * Declared in Tailwind v4's `@theme`, so each token also generates its
+ * utilities (`bg-navy`, `text-brand-bright`, `border-hairline`, …).
+ */
+@theme {
+  /* Dark environment — deep teal-green, not blue */
+  --color-midnight: #04120f;
+  --color-navy: #071b16;
+  --color-surface-dark: #0c2620;
+  --color-surface-dark-2: #123a30;
+
+  /* Brand — aurora teal / emerald / mint */
+  --color-brand: #14b8a6;
+  --color-brand-bright: #2ee6c5;
+  --color-brand-soft: #8ff3df;
+
+  /* Light environment — mint-tinted, never a flat grey */
+  --color-ice: #eefaf6;
+  --color-aqua: #e0f5ee;
+  --color-paper: #ffffff;
+
+  /* Text */
+  --color-ink: #07231d;
+  --color-ink-muted: #52736b;
+  --color-light: #f1fbf8;
+  --color-light-muted: #a2c6bd;
+
+  /* Hairlines. Separate tokens because border colour carries a lot of the
+     "technical" feel and needs to differ per environment. */
+  --color-hairline-dark: rgb(255 255 255 / 0.1);
+  --color-hairline-light: rgb(7 35 29 / 0.1);
+
+  /* Aurora accent stops — reused by the ambient wash and gradient buttons. */
+  --color-aurora-1: #21e0b5;
+  --color-aurora-2: #17b8c8;
+  --color-aurora-3: #4f8bff;
+  --color-aurora-4: #7b6cff;
+
+  /* Fluid type scale. Headings stay tight; body stays readable. */
+  --text-display: clamp(2.75rem, 8.5vw, 6rem);
+  --text-display--line-height: 0.94;
+  --text-display--letter-spacing: -0.035em;
+
+  --text-h1: clamp(2.25rem, 5.5vw, 4rem);
+  --text-h1--line-height: 1;
+  --text-h1--letter-spacing: -0.03em;
+
+  --text-h2: clamp(1.875rem, 3.6vw, 3rem);
+  --text-h2--line-height: 1.05;
+  --text-h2--letter-spacing: -0.025em;
+
+  --text-h3: clamp(1.25rem, 2vw, 1.625rem);
+  --text-h3--line-height: 1.2;
+  --text-h3--letter-spacing: -0.015em;
+
+  --text-lead: clamp(1.0625rem, 1.4vw, 1.25rem);
+  --text-lead--line-height: 1.6;
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  /* Motion */
+  --ease-out-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background: var(--color-paper);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Visible focus everywhere, in a colour that works on both environments. */
+:focus-visible {
+  outline: 2px solid var(--color-brand-bright);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/*
+ * Technical label: the small monospace caps used for section numbers and
+ * category tags. Defined once so it stays consistent and is easy to retire.
+ */
+.tech-label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/*
+ * Engineering grid. A near-invisible ruled background used behind dark
+ * sections — it reads as precision rather than decoration, which is why the
+ * alpha is this low.
+ */
+.grid-lines {
+  background-image:
+    linear-gradient(to right, rgb(255 255 255 / 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 0.035) 1px, transparent 1px);
+  background-size: 72px 72px;
+}
+
+.grid-lines-light {
+  background-image:
+    linear-gradient(to right, rgb(7 35 29 / 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(7 35 29 / 0.04) 1px, transparent 1px);
+  background-size: 72px 72px;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Aurora ambience                                                             */
+/*                                                                            */
+/* A slow, blurred colour field used behind dark sections. Two conic-ish blobs */
+/* drift on a long loop; the blur is what makes it read as light rather than   */
+/* shapes. Decorative only — always aria-hidden by the element that mounts it.  */
+/* -------------------------------------------------------------------------- */
+.aurora {
+  position: absolute;
+  inset: -30% -10% -10%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+.aurora::before,
+.aurora::after {
+  content: "";
+  position: absolute;
+  width: 60vw;
+  height: 60vw;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.5;
+  mix-blend-mode: screen;
+}
+.aurora::before {
+  top: -20%;
+  left: -10%;
+  background: radial-gradient(circle at 30% 30%, var(--color-aurora-1), transparent 60%);
+  animation: aurora-drift-a 22s var(--ease-out-soft) infinite alternate;
+}
+.aurora::after {
+  top: -10%;
+  right: -15%;
+  background: radial-gradient(circle at 60% 40%, var(--color-aurora-3), transparent 60%);
+  animation: aurora-drift-b 26s var(--ease-out-soft) infinite alternate;
+}
+.aurora[data-variant="wide"]::before { background: radial-gradient(circle at 30% 30%, var(--color-aurora-2), transparent 60%); }
+.aurora[data-variant="wide"]::after { background: radial-gradient(circle at 60% 40%, var(--color-aurora-4), transparent 60%); }
+
+@keyframes aurora-drift-a {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to { transform: translate3d(8vw, 6vh, 0) scale(1.15); }
+}
+@keyframes aurora-drift-b {
+  from { transform: translate3d(0, 0, 0) scale(1.1); }
+  to { transform: translate3d(-6vw, 4vh, 0) scale(0.9); }
+}
+
+/* -------------------------------------------------------------------------- */
+/* Glass surfaces                                                              */
+/* -------------------------------------------------------------------------- */
+.glass {
+  background: rgb(255 255 255 / 0.06);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  backdrop-filter: blur(16px) saturate(1.4);
+  border: 1px solid rgb(255 255 255 / 0.12);
+}
+.glass-strong {
+  background: rgb(255 255 255 / 0.1);
+  -webkit-backdrop-filter: blur(22px) saturate(1.6);
+  backdrop-filter: blur(22px) saturate(1.6);
+  border: 1px solid rgb(255 255 255 / 0.16);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.14),
+    0 24px 60px -24px rgb(2 12 10 / 0.7);
+}
+.glass-light {
+  background: rgb(255 255 255 / 0.72);
+  -webkit-backdrop-filter: blur(16px) saturate(1.3);
+  backdrop-filter: blur(16px) saturate(1.3);
+  border: 1px solid rgb(7 35 29 / 0.08);
+  box-shadow: 0 18px 44px -22px rgb(7 35 29 / 0.18);
+}
+
+/* Gradient CTA — the one loud element. */
+.btn-gradient {
+  background-image: linear-gradient(120deg, var(--color-aurora-1), var(--color-aurora-3) 55%, var(--color-aurora-4));
+  color: #04120f;
+  box-shadow: 0 10px 30px -12px rgb(33 224 181 / 0.6);
+  background-size: 160% 160%;
+  transition: background-position 0.5s var(--ease-out-soft), transform 0.18s var(--ease-out-soft), box-shadow 0.3s ease;
+}
+.btn-gradient:hover {
+  background-position: 100% 50%;
+  transform: translateY(-2px);
+  box-shadow: 0 16px 40px -14px rgb(79 139 255 / 0.55);
+}
+
+/* Text set in the aurora gradient — used for the accent line in headings. */
+.text-aurora {
+  background-image: linear-gradient(110deg, var(--color-aurora-1), var(--color-aurora-3) 55%, var(--color-aurora-4));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Motion utilities                                                            */
+/* -------------------------------------------------------------------------- */
+
+/* Hero entrance: elements start hidden and GSAP reveals them. Scoped to
+   [data-animate] so nothing else is ever invisible if JavaScript fails. */
+[data-animate="hero"] [data-reveal] {
+  opacity: 0;
+}
+
+/* Scroll-in reveal for sections below the fold. The component adds `.armed`
+   on mount and `.in` when the block enters the viewport — so with no JS the
+   content is simply visible and never hidden (see scroll-reveal.tsx). */
+.reveal-up {
+  transition: opacity 0.7s var(--ease-out-soft), transform 0.7s var(--ease-out-soft);
+}
+.reveal-up.armed {
+  opacity: 0;
+  transform: translateY(22px);
+}
+.reveal-up.armed.in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Idle float for the 3D scene layers. */
+@keyframes float-y {
+  from { transform: translateY(-6px); }
+  to { transform: translateY(10px); }
+}
+
+/*
+ * Reduced motion is honoured globally, not per-component: transitions and
+ * animations collapse, and hero elements are shown immediately rather than
+ * waiting on a timeline that will never play.
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  [data-animate="hero"] [data-reveal],
+  .reveal-up.armed {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
