@@ -6,6 +6,7 @@ import { PageHeader } from "@/shared/components/admin/page-header";
 import { Card, CardHeader, ErrorState } from "@/shared/components/primitives";
 import { adminApiGet } from "@/lib/api/admin-api";
 import { getResource, isCmsResourceKey } from "@/features/cms/registry";
+import { fetchCmsFormOptions } from "@/features/cms/services/options";
 import { CAPABILITIES } from "@/contracts";
 import { getSession } from "@/lib/auth";
 
@@ -14,7 +15,6 @@ interface PageProps {
 }
 
 type Row = Record<string, unknown>;
-type Options = Record<string, { id: string; name: string }[]>;
 
 export default async function CmsEditPage({ params }: PageProps) {
   const { resource: key, id } = await params;
@@ -26,9 +26,9 @@ export default async function CmsEditPage({ params }: PageProps) {
   const canWrite =
     Boolean(session) && session!.capabilities.includes(CAPABILITIES.CMS_WRITE);
 
-  const [recordResult, optionsResult] = await Promise.all([
+  const [recordResult, options] = await Promise.all([
     adminApiGet<Row>(`/api/admin/cms/${key}/${id}`),
-    adminApiGet<Options>(`/api/admin/cms/${key}/options`),
+    fetchCmsFormOptions(resource),
   ]);
 
   if (!recordResult.ok) {
@@ -94,14 +94,14 @@ export default async function CmsEditPage({ params }: PageProps) {
 
       <Card>
         <div className="px-4 py-4">
-          {canWrite && optionsResult.ok ? (
+          {canWrite ? (
             <CmsForm
               resourceKey={key}
               resourceLabel={resource.singular}
               fields={resource.fields}
               childConfigs={resource.children}
               record={record}
-              options={optionsResult.data}
+              options={options}
             />
           ) : (
             <dl className="divide-y divide-slate-100">
