@@ -14,7 +14,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-import { Button, Field, Input, Select, Textarea } from "@/shared/components/primitives";
+import { Button, Field, Input, Select, Textarea, UniversalSelector } from "@/shared/components/primitives";
 import { useApiMutation } from "@/shared/hooks/use-api-mutation";
 import type { CmsChild, CmsField } from "@/features/cms/registry";
 
@@ -191,14 +191,22 @@ export function CmsForm({
 
       case "enum":
         return (
-          <Select {...common} value={String(value ?? "")} onChange={(e) => onChange(e.target.value)}>
-            {!field.required ? <option value="">None</option> : null}
-            {field.options?.map((option) => (
-              <option key={option} value={option}>
-                {option.charAt(0) + option.slice(1).toLowerCase().replace(/_/g, " ")}
-              </option>
-            ))}
-          </Select>
+          <UniversalSelector
+            id={common.id}
+            name={field.name}
+            disabled={common.disabled}
+            value={String(value ?? "")}
+            onChange={(val) => onChange(val)}
+            placeholder="Select..."
+            options={[
+              ...(!field.required ? [{ value: "", label: "None" }] : []),
+              ...(field.options?.map((option) => ({
+                value: option,
+                label: option.charAt(0) + option.slice(1).toLowerCase().replace(/_/g, " "),
+              })) ?? []),
+            ]}
+            accentColor="orange"
+          />
         );
 
       case "relation": {
@@ -215,14 +223,22 @@ export function CmsForm({
         }
 
         return (
-          <Select {...common} value={String(value ?? "")} onChange={(e) => onChange(e.target.value || null)}>
-            <option value="">None</option>
-            {available.map((option) => (
-              <option key={option.id} value={option.id}>
-                {option.name}
-              </option>
-            ))}
-          </Select>
+          <UniversalSelector
+            id={common.id}
+            name={field.name}
+            disabled={common.disabled}
+            value={String(value ?? "")}
+            onChange={(val) => onChange(val || null)}
+            placeholder="Select..."
+            options={[
+              { value: "", label: "None" },
+              ...available.map((option) => ({
+                value: option.id,
+                label: option.name,
+              })),
+            ]}
+            accentColor="orange"
+          />
         );
       }
 

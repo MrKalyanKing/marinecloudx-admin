@@ -207,6 +207,9 @@ export function Select({ className, children, ...props }: ComponentProps<"select
   );
 }
 
+export { UniversalSelector } from "@/shared/components/universal-selector";
+export type { UniversalSelectorOption, UniversalSelectorProps } from "@/shared/components/universal-selector";
+
 /* -------------------------------------------------------------------------- */
 /* Tables                                                                      */
 /* -------------------------------------------------------------------------- */
