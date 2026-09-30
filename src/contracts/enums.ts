@@ -133,3 +133,45 @@ export enum TechnologyCategory {
   ANALYTICS = "ANALYTICS",
   OTHER = "OTHER",
 }
+
+/** Careers — job posting lifecycle. */
+export enum JobStatus {
+  DRAFT = "DRAFT",
+  PUBLISHED = "PUBLISHED",
+  CLOSED = "CLOSED",
+  ARCHIVED = "ARCHIVED",
+}
+
+export enum EmploymentType {
+  FULL_TIME = "FULL_TIME",
+  PART_TIME = "PART_TIME",
+  CONTRACT = "CONTRACT",
+  INTERNSHIP = "INTERNSHIP",
+  FREELANCE = "FREELANCE",
+}
+
+/** Careers — candidate application pipeline. */
+export enum ApplicationStatus {
+  NEW = "NEW",
+  UNDER_REVIEW = "UNDER_REVIEW",
+  SHORTLISTED = "SHORTLISTED",
+  INTERVIEW = "INTERVIEW",
+  SELECTED = "SELECTED",
+  REJECTED = "REJECTED",
+}
+
+export enum ApplicationSource {
+  RESUME_UPLOAD = "RESUME_UPLOAD",
+  MANUAL_APPLICATION = "MANUAL_APPLICATION",
+  CAREERS_PAGE = "CAREERS_PAGE",
+  LINKEDIN = "LINKEDIN",
+}
+
+export enum ApplicationActivityType {
+  APPLICATION_RECEIVED = "APPLICATION_RECEIVED",
+  STATUS_CHANGED = "STATUS_CHANGED",
+  RESUME_UPLOADED = "RESUME_UPLOADED",
+  NOTE_ADDED = "NOTE_ADDED",
+  INTERVIEW_SCHEDULED = "INTERVIEW_SCHEDULED",
+  OTHER = "OTHER",
+}

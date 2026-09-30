@@ -35,6 +35,12 @@ export const endpoints = {
       bySession: (sessionId: string) => `/conversations/${enc(sessionId)}`,
       messages: (sessionId: string) => `/conversations/${enc(sessionId)}/messages`,
     },
+    careers: {
+      jobs: () => `/public/careers/jobs`,
+      job: (slug: string) => `/public/careers/jobs/${enc(slug)}`,
+      apply: (jobId: string) => `/public/careers/jobs/${enc(jobId)}/applications`,
+      parseResume: () => `/public/careers/parse-resume`,
+    },
   },
 
   /** Authenticated + capability-checked. */
@@ -89,6 +95,24 @@ export const endpoints = {
       detail: (id: string) => `/admin/cms/media/${enc(id)}`,
       update: (id: string) => `/admin/cms/media/${enc(id)}`,
       remove: (id: string) => `/admin/cms/media/${enc(id)}`,
+    },
+
+    careers: {
+      dashboard: () => `/admin/careers/dashboard`,
+      jobs: {
+        list: () => `/admin/careers/jobs`,
+        create: () => `/admin/careers/jobs`,
+        detail: (id: string) => `/admin/careers/jobs/${enc(id)}`,
+        update: (id: string) => `/admin/careers/jobs/${enc(id)}`,
+        remove: (id: string) => `/admin/careers/jobs/${enc(id)}`,
+      },
+      applications: {
+        list: () => `/admin/careers/applications`,
+        detail: (id: string) => `/admin/careers/applications/${enc(id)}`,
+        status: (id: string) => `/admin/careers/applications/${enc(id)}/status`,
+        bulkStatus: () => `/admin/careers/applications/bulk-status`,
+        resumeUrl: (id: string) => `/admin/careers/applications/${enc(id)}/resume-url`,
+      },
     },
   },
 } as const;

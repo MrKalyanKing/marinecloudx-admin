@@ -21,11 +21,7 @@ export function cn(...values: (string | false | null | undefined)[]): string {
 /* -------------------------------------------------------------------------- */
 
 export function Card({ className, children }: { className?: string; children: ReactNode }) {
-  return (
-    <div className={cn("rounded-lg border border-slate-200 bg-white shadow-sm", className)}>
-      {children}
-    </div>
-  );
+  return <div className={cn("liquid-glass", className)}>{children}</div>;
 }
 
 export function CardHeader({
@@ -38,7 +34,7 @@ export function CardHeader({
   action?: ReactNode;
 }) {
   return (
-    <div className="flex items-start justify-between gap-4 border-b border-slate-200 px-4 py-3">
+    <div className="flex items-start justify-between gap-4 border-b border-white/40 bg-white/25 px-4 py-3">
       <div className="min-w-0">
         <h2 className="text-sm font-semibold text-slate-900">{title}</h2>
         {description ? <p className="mt-0.5 text-xs text-slate-500">{description}</p> : null}
@@ -68,7 +64,7 @@ export function StatTile({
   }[tone];
 
   return (
-    <div className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+    <div className="liquid-glass-tile p-4">
       <p className="text-xs font-medium uppercase tracking-wide text-slate-500">{label}</p>
       <p className={cn("mt-1 text-2xl font-semibold tabular-nums", toneClass)}>{value}</p>
       {hint ? <p className="mt-1 text-xs text-slate-500">{hint}</p> : null}
@@ -83,13 +79,13 @@ export function StatTile({
 export type BadgeTone = "neutral" | "teal" | "green" | "amber" | "red" | "blue" | "slate";
 
 const BADGE_TONES: Record<BadgeTone, string> = {
-  neutral: "bg-slate-100 text-slate-700 ring-slate-200",
-  slate: "bg-slate-800 text-white ring-slate-800",
-  teal: "bg-teal-50 text-teal-800 ring-teal-200",
-  green: "bg-green-50 text-green-800 ring-green-200",
-  amber: "bg-amber-50 text-amber-800 ring-amber-200",
-  red: "bg-red-50 text-red-800 ring-red-200",
-  blue: "bg-blue-50 text-blue-800 ring-blue-200",
+  neutral: "bg-white/55 text-slate-700 ring-white/70 backdrop-blur-sm",
+  slate: "bg-slate-800/90 text-white ring-slate-700/80 backdrop-blur-sm",
+  teal: "bg-teal-50/80 text-teal-800 ring-teal-200/80 backdrop-blur-sm",
+  green: "bg-green-50/80 text-green-800 ring-green-200/80 backdrop-blur-sm",
+  amber: "bg-amber-50/80 text-amber-800 ring-amber-200/80 backdrop-blur-sm",
+  red: "bg-red-50/80 text-red-800 ring-red-200/80 backdrop-blur-sm",
+  blue: "bg-blue-50/80 text-blue-800 ring-blue-200/80 backdrop-blur-sm",
 };
 
 export function Badge({
@@ -118,15 +114,17 @@ export function Badge({
 type ButtonVariant = "primary" | "secondary" | "ghost" | "danger";
 
 const BUTTON_VARIANTS: Record<ButtonVariant, string> = {
-  primary: "bg-teal-700 text-white hover:bg-teal-800 disabled:bg-teal-700/60",
+  primary:
+    "bg-gradient-to-br from-teal-600 to-teal-800 text-white shadow-[0_10px_24px_-14px_rgba(20,184,166,0.7)] hover:from-teal-500 hover:to-teal-700 disabled:opacity-60",
   secondary:
-    "bg-white text-slate-800 ring-1 ring-inset ring-slate-300 hover:bg-slate-50 disabled:opacity-60",
-  ghost: "text-slate-700 hover:bg-slate-100 disabled:opacity-60",
-  danger: "bg-red-600 text-white hover:bg-red-700 disabled:bg-red-600/60",
+    "bg-white/55 text-slate-800 ring-1 ring-inset ring-white/70 backdrop-blur-md hover:bg-white/75 disabled:opacity-60",
+  ghost: "text-slate-700 hover:bg-white/40 disabled:opacity-60",
+  danger:
+    "bg-gradient-to-br from-red-500 to-red-700 text-white shadow-[0_10px_24px_-14px_rgba(220,38,38,0.55)] hover:from-red-400 hover:to-red-600 disabled:opacity-60",
 };
 
 const BUTTON_BASE =
-  "inline-flex items-center justify-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition-colors " +
+  "inline-flex items-center justify-center gap-1.5 rounded-xl px-3 py-1.5 text-sm font-medium transition-all " +
   "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700 " +
   "disabled:cursor-not-allowed";
 
@@ -151,9 +149,9 @@ export function ButtonLink({
 /* -------------------------------------------------------------------------- */
 
 const CONTROL_BASE =
-  "w-full rounded-md border border-slate-300 bg-white px-2.5 py-1.5 text-sm text-slate-900 " +
-  "placeholder:text-slate-400 focus:border-teal-600 focus:outline-2 focus:outline-offset-0 " +
-  "focus:outline-teal-600 disabled:bg-slate-50 disabled:text-slate-500";
+  "liquid-control w-full rounded-xl border border-slate-300/80 px-2.5 py-1.5 text-sm text-slate-900 " +
+  "placeholder:text-slate-400 focus:border-teal-500 focus:outline-2 focus:outline-offset-0 " +
+  "focus:outline-teal-600 disabled:bg-slate-50/70 disabled:text-slate-500";
 
 /**
  * Every control is wrapped in a Field so it always has a real <label>. The
@@ -228,7 +226,7 @@ export function Th({ children, className }: { children?: ReactNode; className?: 
     <th
       scope="col"
       className={cn(
-        "border-b border-slate-200 bg-slate-50 px-3 py-2 text-left text-xs font-semibold uppercase tracking-wide text-slate-600",
+        "border-b border-white/50 bg-white/35 px-3 py-2.5 text-left text-xs font-semibold uppercase tracking-wide text-slate-600 backdrop-blur-sm",
         className,
       )}
     >
@@ -239,7 +237,7 @@ export function Th({ children, className }: { children?: ReactNode; className?: 
 
 export function Td({ children, className }: { children?: ReactNode; className?: string }) {
   return (
-    <td className={cn("border-b border-slate-100 px-3 py-2 align-middle text-slate-700", className)}>
+    <td className={cn("border-b border-slate-100/80 px-3 py-2.5 align-middle text-slate-700", className)}>
       {children}
     </td>
   );
@@ -297,7 +295,7 @@ export function ErrorState({
   return (
     <div
       role="alert"
-      className="flex flex-col items-start gap-2 rounded-lg border border-red-200 bg-red-50 px-4 py-3"
+      className="flex flex-col items-start gap-2 rounded-2xl border border-red-200/70 bg-red-50/70 px-4 py-3 backdrop-blur-md"
     >
       <p className="text-sm font-medium text-red-900">Could not load this data</p>
       <p className="text-sm text-red-800">{(code && friendly[code]) || message}</p>

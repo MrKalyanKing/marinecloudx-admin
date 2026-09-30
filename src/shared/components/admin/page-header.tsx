@@ -18,7 +18,7 @@ export function PageHeader({
   actions?: ReactNode;
 }) {
   return (
-    <header className="mb-5">
+    <header className="liquid-glass mb-5 px-4 py-3.5 sm:px-5">
       {breadcrumbs && breadcrumbs.length > 0 ? (
         <nav aria-label="Breadcrumb" className="mb-1">
           <ol className="flex flex-wrap items-center gap-1 text-xs text-slate-500">
@@ -26,7 +26,7 @@ export function PageHeader({
               <li key={`${crumb.label}-${index}`} className="flex items-center gap-1">
                 {index > 0 ? <span aria-hidden="true">/</span> : null}
                 {crumb.href ? (
-                  <Link href={crumb.href} className="hover:text-slate-800 hover:underline">
+                  <Link href={crumb.href} className="hover:text-teal-700 hover:underline">
                     {crumb.label}
                   </Link>
                 ) : (

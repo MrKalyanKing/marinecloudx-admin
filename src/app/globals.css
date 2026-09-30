@@ -174,7 +174,7 @@ body {
 }
 
 /* -------------------------------------------------------------------------- */
-/* Glass surfaces                                                              */
+/* Glass surfaces — liquid glass for the admin operational UI                  */
 /* -------------------------------------------------------------------------- */
 .glass {
   background: rgb(255 255 255 / 0.06);
@@ -197,6 +197,106 @@ body {
   backdrop-filter: blur(16px) saturate(1.3);
   border: 1px solid rgb(7 35 29 / 0.08);
   box-shadow: 0 18px 44px -22px rgb(7 35 29 / 0.18);
+}
+
+/*
+ * Liquid glass panel — frosted card surface used across admin lists/detail.
+ * Specular top edge + soft depth; stays scannable for dense tables.
+ */
+.liquid-glass {
+  position: relative;
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / 0.58) 0%, rgb(255 255 255 / 0.34) 100%);
+  -webkit-backdrop-filter: blur(28px) saturate(1.7);
+  backdrop-filter: blur(28px) saturate(1.7);
+  border: 1px solid rgb(255 255 255 / 0.55);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.85),
+    inset 0 -1px 0 rgb(7 35 29 / 0.04),
+    0 1px 2px rgb(7 35 29 / 0.04),
+    0 22px 48px -28px rgb(7 35 29 / 0.32);
+  border-radius: 1.125rem;
+  overflow: hidden;
+}
+.liquid-glass::before {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgb(255 255 255 / 0.95) 30%,
+    rgb(46 230 197 / 0.45) 50%,
+    rgb(255 255 255 / 0.95) 70%,
+    transparent
+  );
+  opacity: 0.9;
+}
+
+.liquid-glass-tile {
+  position: relative;
+  background:
+    linear-gradient(155deg, rgb(255 255 255 / 0.55) 0%, rgb(238 250 246 / 0.28) 100%);
+  -webkit-backdrop-filter: blur(24px) saturate(1.65);
+  backdrop-filter: blur(24px) saturate(1.65);
+  border: 1px solid rgb(255 255 255 / 0.55);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.9),
+    0 16px 36px -24px rgb(7 35 29 / 0.32);
+  border-radius: 1.125rem;
+  transition: transform 0.2s var(--ease-out-soft), box-shadow 0.2s ease;
+}
+.liquid-glass-tile:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.95),
+    0 18px 36px -22px rgb(20 184 166 / 0.35);
+}
+
+.liquid-glass-header {
+  background: rgb(255 255 255 / 0.4);
+  -webkit-backdrop-filter: blur(28px) saturate(1.7);
+  backdrop-filter: blur(28px) saturate(1.7);
+  border-bottom: 1px solid rgb(255 255 255 / 0.5);
+  box-shadow: 0 10px 30px -22px rgb(7 35 29 / 0.4);
+}
+
+.liquid-glass-sidebar {
+  background:
+    linear-gradient(180deg, rgb(7 27 22 / 0.92) 0%, rgb(4 18 15 / 0.88) 100%);
+  -webkit-backdrop-filter: blur(28px) saturate(1.4);
+  backdrop-filter: blur(28px) saturate(1.4);
+  border-right: 1px solid rgb(255 255 255 / 0.08);
+  box-shadow:
+    inset -1px 0 0 rgb(255 255 255 / 0.04),
+    12px 0 40px -28px rgb(2 12 10 / 0.65);
+}
+
+.admin-liquid-bg {
+  background-color: #dff3ec;
+  background-image:
+    radial-gradient(ellipse 90% 55% at 8% -8%, rgb(46 230 197 / 0.45), transparent 55%),
+    radial-gradient(ellipse 75% 50% at 98% 0%, rgb(79 139 255 / 0.32), transparent 52%),
+    radial-gradient(ellipse 65% 45% at 72% 105%, rgb(123 108 255 / 0.22), transparent 55%),
+    radial-gradient(ellipse 50% 35% at 40% 60%, rgb(255 255 255 / 0.5), transparent 60%),
+    linear-gradient(180deg, #eaf8f3 0%, #d9efe8 48%, #e7f4ef 100%);
+  background-attachment: fixed;
+}
+
+.liquid-control {
+  background: rgb(255 255 255 / 0.55) !important;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border-color: rgb(7 35 29 / 0.12) !important;
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.75);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .liquid-glass-tile:hover {
+    transform: none;
+  }
 }
 
 /* Gradient CTA — the one loud element. */

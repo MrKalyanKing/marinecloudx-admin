@@ -26,6 +26,10 @@ export const CAPABILITIES = {
   CMS_WRITE: "cms:write",
   /** Administer team members and roles. */
   TEAM_MANAGE: "team:manage",
+  /** Read careers jobs and applications (candidate PII, resumes). */
+  CAREERS_READ: "careers:read",
+  /** Create/edit jobs and manage application status. */
+  CAREERS_WRITE: "careers:write",
 } as const;
 
 export type Capability = (typeof CAPABILITIES)[keyof typeof CAPABILITIES];

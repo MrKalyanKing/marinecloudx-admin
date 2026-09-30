@@ -52,7 +52,7 @@ export function Pagination({
   return (
     <nav
       aria-label="Pagination"
-      className="flex flex-wrap items-center justify-between gap-3 border-t border-slate-200 px-4 py-3"
+      className="flex flex-wrap items-center justify-between gap-3 border-t border-white/45 bg-white/20 px-4 py-3 backdrop-blur-sm"
     >
       <p className="text-xs text-slate-600">
         {total === 0 ? (

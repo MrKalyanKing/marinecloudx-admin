@@ -46,6 +46,14 @@ export const NAV_SECTIONS: NavSection[] = [
     ],
   },
   {
+    label: "Careers",
+    capability: CAPABILITIES.CAREERS_READ,
+    items: [
+      { label: "Jobs", href: "/careers/jobs", capability: CAPABILITIES.CAREERS_READ },
+      { label: "Applications", href: "/careers/applications", capability: CAPABILITIES.CAREERS_READ },
+    ],
+  },
+  {
     label: "CMS",
     capability: CAPABILITIES.CMS_READ,
     // Built from the CMS registry so a new content type appears in the
