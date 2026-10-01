@@ -51,10 +51,12 @@ export async function signInAction(
     if (res.ok) {
       const token = extractSessionToken(res.headers.get("set-cookie"));
       if (token) {
+        const cookieDomain = process.env.COOKIE_DOMAIN ?? (IS_PROD ? ".marinecloudx.in" : undefined);
         (await cookies()).set(COOKIE_NAME, token, {
           httpOnly: true,
           sameSite: "lax",
           secure: IS_PROD,
+          domain: cookieDomain,
           path: "/",
           maxAge: SESSION_TTL_SECONDS,
         });

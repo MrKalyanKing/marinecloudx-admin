@@ -217,10 +217,8 @@ function ResumeQuickDownload({ applicationId }: { applicationId: string }) {
     if (pending) return;
     setPending(true);
     try {
-      const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001";
       const response = await fetch(
-        `${API_URL}/admin/careers/applications/${encodeURIComponent(applicationId)}/resume-url?disposition=download`,
-        { credentials: "include" },
+        `/api/admin/careers/applications/${encodeURIComponent(applicationId)}/resume-url?disposition=download`,
       );
       const payload = (await response.json()) as {
         success: boolean;

@@ -23,11 +23,16 @@ import type { ApiFieldError } from "@/shared/types/api";
  * `credentials: "include"` sends the session cookie (same-site: localhost, or
  * `admin.` / `api.` subdomains of one registrable domain).
  */
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001";
-
 function backendUrl(path: string): string {
-  const rel = path.replace(/^\/api(?=\/)/, "");
-  return `${API_URL}${rel.startsWith("/") ? rel : `/${rel}`}`;
+  // Routes through the same-origin Next.js API proxy (/api/admin/...)
+  // so the browser automatically attaches the mcx_session cookie without cross-domain drop.
+  if (path.startsWith("/api/admin")) {
+    return path;
+  }
+  if (path.startsWith("/admin")) {
+    return `/api${path}`;
+  }
+  return path.startsWith("/") ? path : `/${path}`;
 }
 
 export interface MutationError {
