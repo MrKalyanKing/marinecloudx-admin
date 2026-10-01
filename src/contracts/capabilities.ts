@@ -13,6 +13,7 @@
  * IMPORTANT: this is UI vocabulary only. The role → capability mapping and every
  * real authorization decision live in the backend (`apps/backend`), which is the
  * final authority. Hiding a button in the admin app is UX, not security.
+ * Hello these an demo one 
  */
 
 export const CAPABILITIES = {
