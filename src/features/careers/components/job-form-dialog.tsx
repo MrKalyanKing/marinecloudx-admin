@@ -95,6 +95,7 @@ export function JobFormModal({
 
     const body = {
       title: value("title"),
+      slug: value("slug") || undefined,
       department: value("department") || undefined,
       location: value("location") || undefined,
       employmentType: value("employmentType") || undefined,
@@ -175,6 +176,20 @@ export function JobFormModal({
                 required
                 defaultValue={job?.title ?? ""}
                 autoFocus
+              />
+            </Field>
+
+            <Field
+              label="URL Slug (Optional)"
+              htmlFor={`${uid}-slug-field`}
+              hint="Custom URL key, e.g. digital-marketing-mcx-2026-0001. Leave blank to auto-generate."
+              error={error?.fields?.slug}
+            >
+              <Input
+                id={`${uid}-slug-field`}
+                name="slug"
+                defaultValue={job?.slug ?? ""}
+                placeholder="e.g. digital-marketing-mcx-2026-0001"
               />
             </Field>
 
