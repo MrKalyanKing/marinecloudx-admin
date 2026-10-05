@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { AddCandidateButton } from "@/features/careers/components/AddCandidateButton";
 import { ApplicationFilters } from "@/features/careers/components/application-filters";
 import { ApplicationsTable } from "@/features/careers/components/applications-table";
 import type {
@@ -98,9 +99,17 @@ export default async function ApplicationsPage({ searchParams }: PageProps) {
         { label: "Applications" },
       ]}
       actions={
-        <ButtonLink href="/careers/jobs" variant="secondary">
-          View Open Positions
-        </ButtonLink>
+        <div className="flex items-center gap-2">
+          <ButtonLink href="/careers/jobs" variant="secondary">
+            View Open Positions
+          </ButtonLink>
+          {canWrite ? (
+            <AddCandidateButton
+              jobs={jobs.map((j) => ({ id: j.id, title: j.title }))}
+              defaultJobId={selectedJob?.id}
+            />
+          ) : null}
+        </div>
       }
     />
   );

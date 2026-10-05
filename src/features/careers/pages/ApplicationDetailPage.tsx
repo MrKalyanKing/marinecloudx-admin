@@ -14,6 +14,7 @@ import {
 import { RejectStatusButton } from "@/features/careers/components/reject-button";
 import { ResumeActions } from "@/features/careers/components/resume-actions";
 import { ApplicationStatusSelect } from "@/features/careers/components/status-select";
+import { InterviewSection } from "@/features/careers/components/interview/InterviewSection";
 import type { ApplicationDetail } from "@/features/careers/types/careers";
 import { PageHeader } from "@/shared/components/admin/page-header";
 import {
@@ -157,6 +158,16 @@ export default async function ApplicationDetailPage({ params }: PageProps) {
           </div>
         </div>
       </Card>
+
+      <div className="mb-4">
+        <InterviewSection
+          applicationId={app.id}
+          candidateName={app.candidateName}
+          candidateEmail={app.email}
+          initialRounds={app.interviewRounds ?? []}
+          canWrite={canWrite}
+        />
+      </div>
 
       <div className="grid gap-4 lg:grid-cols-3">
         <div className="flex flex-col gap-4 lg:col-span-2">

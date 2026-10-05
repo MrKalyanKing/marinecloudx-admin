@@ -107,6 +107,7 @@ export interface ApplicationDetail extends ApplicationListItem {
   resumeSize: number | null;
   resumeUploadedAt: string | null;
   activities: ApplicationActivity[];
+  interviewRounds?: InterviewRound[];
 }
 
 export interface ResumeUrlResponse {
@@ -115,3 +116,71 @@ export interface ResumeUrlResponse {
   mimeType: string;
   expiresInSeconds: number;
 }
+
+export interface InterviewSlot {
+  id: string;
+  startAt: string;
+  endAt: string;
+  timezone: string;
+  status: "AVAILABLE" | "BOOKED" | "BLOCKED" | "CANCELLED";
+  booking?: {
+    id: string;
+    status: string;
+    candidateTimezone: string;
+    notes: string | null;
+    meetingLink?: string | null;
+    bookedAt: string;
+  } | null;
+}
+
+export interface InterviewRound {
+  id: string;
+  applicationId: string;
+  roundNumber: number;
+  title: string;
+  durationMinutes: number;
+  status: "PENDING" | "INVITED" | "SCHEDULED" | "COMPLETED" | "CANCELLED";
+  notes: string | null;
+  meetingLink?: string | null;
+  createdAt: string;
+  stats: {
+    totalSlots: number;
+    availableSlots: number;
+    bookedSlots: number;
+    blockedSlots: number;
+  };
+  slots: InterviewSlot[];
+  availabilities: Array<{
+    id: string;
+    startDate: string;
+    endDate: string;
+    daysOfWeek: string[];
+    timeWindows: Array<{ startTime: string; endTime: string }>;
+    durationMinutes: number;
+    bufferMinutes: number;
+    timezone: string;
+  }>;
+  latestBooking?: {
+    id: string;
+    status: string;
+    bookedAt: string;
+    candidateTimezone: string;
+    notes: string | null;
+    meetingLink: string | null;
+    slot: {
+      id: string;
+      startAt: string;
+      endAt: string;
+      timezone: string;
+    } | null;
+  } | null;
+  activeToken?: {
+    id: string;
+    token?: string;
+    schedulingUrl?: string;
+    expiresAt: string;
+    sentAt: string | null;
+    status: string;
+  } | null;
+}
+

@@ -161,10 +161,14 @@ export enum ApplicationStatus {
 }
 
 export enum ApplicationSource {
-  RESUME_UPLOAD = "RESUME_UPLOAD",
-  MANUAL_APPLICATION = "MANUAL_APPLICATION",
+  CAREERS = "CAREERS",
   CAREERS_PAGE = "CAREERS_PAGE",
   LINKEDIN = "LINKEDIN",
+  REFERRAL = "REFERRAL",
+  MANUAL = "MANUAL",
+  RESUME_UPLOAD = "RESUME_UPLOAD",
+  MANUAL_APPLICATION = "MANUAL_APPLICATION",
+  OTHER = "OTHER",
 }
 
 export enum ApplicationActivityType {
@@ -173,5 +177,43 @@ export enum ApplicationActivityType {
   RESUME_UPLOADED = "RESUME_UPLOADED",
   NOTE_ADDED = "NOTE_ADDED",
   INTERVIEW_SCHEDULED = "INTERVIEW_SCHEDULED",
+  INTERVIEW_INVITATION_SENT = "INTERVIEW_INVITATION_SENT",
+  INTERVIEW_RESCHEDULED = "INTERVIEW_RESCHEDULED",
+  INTERVIEW_CANCELLED = "INTERVIEW_CANCELLED",
   OTHER = "OTHER",
 }
+
+/** Careers — interview round lifecycle. */
+export enum InterviewRoundStatus {
+  PENDING = "PENDING",
+  INVITED = "INVITED",
+  SCHEDULED = "SCHEDULED",
+  COMPLETED = "COMPLETED",
+  CANCELLED = "CANCELLED",
+}
+
+/** Careers — individual interview slot availability. */
+export enum InterviewSlotStatus {
+  AVAILABLE = "AVAILABLE",
+  BOOKED = "BOOKED",
+  BLOCKED = "BLOCKED",
+  CANCELLED = "CANCELLED",
+}
+
+/** Careers — interview booking status. */
+export enum InterviewBookingStatus {
+  SCHEDULED = "SCHEDULED",
+  COMPLETED = "COMPLETED",
+  CANCELLED = "CANCELLED",
+  RESCHEDULED = "RESCHEDULED",
+  NO_SHOW = "NO_SHOW",
+}
+
+/** Careers — candidate secure scheduling token status. */
+export enum SchedulingTokenStatus {
+  ACTIVE = "ACTIVE",
+  USED = "USED",
+  EXPIRED = "EXPIRED",
+  REVOKED = "REVOKED",
+}
+

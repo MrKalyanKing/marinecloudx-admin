@@ -36,6 +36,10 @@ const SOURCE_LABEL: Record<ApplicationSource, string> = {
   [ApplicationSource.MANUAL_APPLICATION]: "Manual",
   [ApplicationSource.CAREERS_PAGE]: "Careers Page",
   [ApplicationSource.LINKEDIN]: "LinkedIn",
+  [ApplicationSource.CAREERS]: "Careers Page",
+  [ApplicationSource.REFERRAL]: "Referral",
+  [ApplicationSource.MANUAL]: "Manual Entry",
+  [ApplicationSource.OTHER]: "Other",
 };
 
 export function applicationStatusLabel(status: ApplicationStatus): string {
