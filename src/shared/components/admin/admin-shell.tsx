@@ -30,11 +30,13 @@ function isActive(pathname: string, href: string): boolean {
 function NavLinks({
   sections,
   pathname,
+  pendingHref,
   onNavigate,
 }: {
   sections: NavSection[];
   pathname: string;
-  onNavigate?: () => void;
+  pendingHref: string | null;
+  onNavigate?: (href: string) => void;
 }) {
   return (
     <nav aria-label="Admin sections" className="flex flex-col gap-5 px-3 py-4">
@@ -46,6 +48,7 @@ function NavLinks({
           <ul className="flex flex-col gap-0.5">
             {section.items.map((item) => {
               const active = isActive(pathname, item.href);
+              const isPending = pendingHref === item.href;
 
               if (item.comingSoon) {
                 return (
@@ -68,17 +71,24 @@ function NavLinks({
                 <li key={item.label}>
                   <Link
                     href={item.href}
-                    onClick={onNavigate}
+                    prefetch={true}
+                    onClick={() => onNavigate?.(item.href)}
                     aria-current={active ? "page" : undefined}
                     className={cn(
                       "block rounded-xl px-2.5 py-1.5 text-sm transition-all",
                       "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-400",
-                      active
+                      active || isPending
                         ? "bg-gradient-to-r from-teal-500/25 to-teal-400/10 font-medium text-teal-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] ring-1 ring-inset ring-teal-400/25"
                         : "text-slate-300 hover:bg-white/10 hover:text-white",
+                      isPending && !active && "animate-pulse ring-teal-300/40",
                     )}
                   >
-                    {item.label}
+                    <span className="flex items-center justify-between">
+                      {item.label}
+                      {isPending && !active ? (
+                        <span className="h-1.5 w-1.5 rounded-full bg-teal-300 animate-ping" />
+                      ) : null}
+                    </span>
                   </Link>
                 </li>
               );
@@ -104,6 +114,18 @@ export function AdminShell({
 }) {
   const pathname = usePathname();
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [pendingHref, setPendingHref] = useState<string | null>(null);
+
+  useEffect(() => {
+    setPendingHref(null);
+  }, [pathname]);
+
+  const handleNavigate = (href: string) => {
+    if (href !== pathname) {
+      setPendingHref(href);
+    }
+    setDrawerOpen(false);
+  };
 
   useEffect(() => {
     if (!drawerOpen) return;
@@ -120,6 +142,7 @@ export function AdminShell({
   const brand = (
     <Link
       href="/"
+      onClick={() => handleNavigate("/")}
       className="flex items-center gap-2 border-b border-white/10 px-4 py-3.5 text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-400"
     >
       <span className="text-base font-semibold tracking-tight">
@@ -133,6 +156,12 @@ export function AdminShell({
 
   return (
     <div className="admin-liquid-bg min-h-screen text-slate-900">
+      {pendingHref ? (
+        <div className="fixed top-0 left-0 right-0 z-50 h-1 overflow-hidden bg-teal-950/20 backdrop-blur-sm">
+          <div className="h-full w-full bg-gradient-to-r from-teal-400 via-emerald-300 to-teal-200 animate-pulse transition-all duration-300" />
+        </div>
+      ) : null}
+
       <a
         href="#admin-content"
         className="sr-only focus:not-sr-only focus:absolute focus:left-3 focus:top-3 focus:z-50 focus:rounded focus:bg-white focus:px-3 focus:py-2 focus:text-sm focus:shadow"
@@ -144,7 +173,12 @@ export function AdminShell({
       <aside className="liquid-glass-sidebar fixed inset-y-0 left-0 z-20 hidden w-60 flex-col lg:flex">
         {brand}
         <div className="flex-1 overflow-y-auto">
-          <NavLinks sections={sections} pathname={pathname} />
+          <NavLinks
+            sections={sections}
+            pathname={pathname}
+            pendingHref={pendingHref}
+            onNavigate={handleNavigate}
+          />
         </div>
         <div className="border-t border-white/10 px-4 py-3">
           <p className="truncate text-xs text-slate-400">{identity.email}</p>
@@ -171,7 +205,8 @@ export function AdminShell({
               <NavLinks
                 sections={sections}
                 pathname={pathname}
-                onNavigate={() => setDrawerOpen(false)}
+                pendingHref={pendingHref}
+                onNavigate={handleNavigate}
               />
             </div>
           </div>

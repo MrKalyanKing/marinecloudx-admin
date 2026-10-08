@@ -16,7 +16,7 @@ import { headers } from "next/headers";
 
 import type { ApiErrorCode, ApiPagination } from "@/shared/types/api";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001";
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:3001";
 
 export interface AdminApiSuccess<TData> {
   ok: true;
@@ -43,9 +43,12 @@ export async function adminApiGet<TData>(path: string): Promise<AdminApiResult<T
   try {
     const cookie = (await headers()).get("cookie") ?? "";
 
+    const isStaticConfig = path.includes("/crm/config") || path.includes("/options");
+
     const response = await fetch(backendUrl(path), {
       headers: { cookie, accept: "application/json" },
-      cache: "no-store",
+      cache: isStaticConfig ? "default" : "no-store",
+      ...(isStaticConfig ? { next: { revalidate: 30 } } : {}),
     });
 
     const body: unknown = await response.json().catch(() => null);

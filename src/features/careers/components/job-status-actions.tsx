@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
 import { JobStatus } from "@/contracts";
 import { Button, Select } from "@/shared/components/primitives";
 import { useApiMutation } from "@/shared/hooks/use-api-mutation";
@@ -12,12 +14,20 @@ export function JobStatusActions({
   currentStatus: JobStatus;
 }) {
   const { mutate, isPending, error } = useApiMutation();
+  const [status, setStatusState] = useState(currentStatus);
 
-  async function setStatus(status: JobStatus) {
-    await mutate(`/api/admin/careers/jobs/${jobId}`, {
+  useEffect(() => {
+    setStatusState(currentStatus);
+  }, [currentStatus]);
+
+  async function setStatus(nextStatus: JobStatus) {
+    const prev = status;
+    setStatusState(nextStatus);
+    const result = await mutate(`/api/admin/careers/jobs/${jobId}`, {
       method: "PATCH",
-      body: { status },
+      body: { status: nextStatus },
     });
+    if (!result) setStatusState(prev);
   }
 
   async function archiveOrDelete() {
@@ -32,7 +42,7 @@ export function JobStatusActions({
     <div className="flex flex-wrap items-center gap-2">
       <Select
         aria-label="Job status"
-        value={currentStatus}
+        value={status}
         disabled={isPending}
         className="w-auto py-1 text-xs"
         onChange={(e) => void setStatus(e.target.value as JobStatus)}

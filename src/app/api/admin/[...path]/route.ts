@@ -3,7 +3,7 @@ import { type NextRequest, NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001";
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:3001";
 const COOKIE_NAME = process.env.AUTH_COOKIE_NAME ?? "mcx_session";
 
 async function proxyRequest(

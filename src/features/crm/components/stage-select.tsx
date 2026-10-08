@@ -11,7 +11,7 @@
  * the board is an enhancement, never the only way.
  */
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Select } from "@/shared/components/primitives";
 import { useApiMutation } from "@/shared/hooks/use-api-mutation";
@@ -35,6 +35,10 @@ export function StageSelect({
   const { mutate, isPending, error } = useApiMutation();
   const [value, setValue] = useState(currentStageId);
   const controlId = `stage-${leadId}`;
+
+  useEffect(() => {
+    setValue(currentStageId);
+  }, [currentStageId]);
 
   async function handleChange(nextStageId: string) {
     const previous = value;

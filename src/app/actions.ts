@@ -12,7 +12,7 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001";
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:3001";
 const COOKIE_NAME = process.env.AUTH_COOKIE_NAME ?? "mcx_session";
 const IS_PROD = process.env.NODE_ENV === "production";
 const SESSION_TTL_SECONDS = Number(process.env.AUTH_SESSION_TTL ?? 8 * 60 * 60);

@@ -1,5 +1,6 @@
 import "server-only";
 
+import { cache } from "react";
 import { headers } from "next/headers";
 
 import type { Capability } from "@/contracts";
@@ -12,7 +13,7 @@ import type { Capability } from "@/contracts";
  * capabilities from the database on every call. There is one identity path.
  */
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001";
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:3001";
 
 export interface AdminSession {
   id: string;
@@ -22,7 +23,7 @@ export interface AdminSession {
   capabilities: Capability[];
 }
 
-export async function getSession(): Promise<AdminSession | null> {
+export const getSession = cache(async function getSession(): Promise<AdminSession | null> {
   const cookie = (await headers()).get("cookie") ?? "";
   try {
     const res = await fetch(`${API_URL}/auth/session`, {
@@ -36,7 +37,7 @@ export async function getSession(): Promise<AdminSession | null> {
   } catch {
     return null;
   }
-}
+});
 
 export function hasCapability(session: AdminSession | null, capability: Capability): boolean {
   return Boolean(session && session.capabilities.includes(capability));
